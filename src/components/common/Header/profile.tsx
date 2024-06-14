@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { capitalizeFirstLetter } from "../../../utils/functions";
 
 export default function ProfileComponent() {
   const [profileDropdownload, setProfileDropdownload] = useState(false);
+  const user = JSON.parse(
+    localStorage.getItem("userKaunBanegaCarorpati") as string
+  );
+
   return (
     <div className="">
       <button
@@ -23,8 +28,10 @@ export default function ProfileComponent() {
         id="user-dropdown"
       >
         <div className="px-4 py-3">
-          <span className="block text-sm text-black">Bonnie Green</span>
-          <span className="block text-sm truncate">name@flowbite.com</span>
+          <span className="block text-sm text-black">{`${capitalizeFirstLetter(
+            user?.firstName
+          )} ${user?.lastName}`}</span>
+          <span className="block text-sm truncate">{user?.email}</span>
         </div>
         <ul className="py-2" aria-labelledby="user-menu-button">
           <li>
@@ -32,7 +39,7 @@ export default function ProfileComponent() {
               href="adsfadsf"
               className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
             >
-              Dashboard
+              My profile
             </a>
           </li>
           <li>
@@ -40,17 +47,17 @@ export default function ProfileComponent() {
               href="adsfadsf"
               className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
             >
-              Settings
+              My tests
             </a>
           </li>
-          <li>
+          {/* <li>
             <a
               href="adsfadsf"
               className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
             >
               Earnings
             </a>
-          </li>
+          </li> */}
           <li>
             <a
               href="adsfadsf"

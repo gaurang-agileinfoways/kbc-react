@@ -1,6 +1,6 @@
 import * as Joi from "joi";
 const strongPasswordRegex =
-  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/; // nosonar
 
 export const LoginVelidation = Joi.object({
   email: Joi.string()
