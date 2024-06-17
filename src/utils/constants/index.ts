@@ -21,4 +21,7 @@ export const ApiEndPoints = {
     userDetail: `admin/user/details`,
     userActiveInactive: `admin/user/active-inactive`,
   },
+  quiz: {
+    startQuiz: `start-quiz`,
+  },
 };

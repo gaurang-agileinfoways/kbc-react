@@ -1,8 +1,8 @@
 import { Toaster } from "react-hot-toast";
 import { Routers } from "./containers/routes";
-import { setAxiosInterceptor } from "./service";
+import { setupAxios } from "./utils/functions";
 
-setAxiosInterceptor();
+setupAxios();
 
 function App() {
   return (

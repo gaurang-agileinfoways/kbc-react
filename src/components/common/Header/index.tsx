@@ -4,11 +4,13 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../utils/constants/routes";
 import ProfileComponent from "./profile";
+import { authStore } from "../../../service/store/auth";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const isAuth = localStorage.getItem("authTokenKaunBanegaCarorpati");
+  const { userData } = authStore((state) => state);
+
   return (
     <header className="bg-white">
       <nav
@@ -56,7 +58,7 @@ const Header = () => {
           </a>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {isAuth ? (
+          {userData?.accessToken ? (
             <ProfileComponent />
           ) : (
             <div className="flex max-lg:ml-auto space-x-3">
