@@ -80,6 +80,11 @@ export const TestComponent = () => {
     clientIo.current.emit("submit-answer", { question: question?._id, answer });
   }
 
+  function quitGame() {
+    console.log("quit-game: ");
+    clientIo.current.emit("quit-quiz", {});
+  }
+
   useEffect(() => {
     const interval =
       question &&
@@ -181,7 +186,53 @@ export const TestComponent = () => {
             </button>
           </div>
         )}
-        <div className="w-full flex justify-end mt-10">
+
+        {/* <div className="flex justify-start mt-10">
+          <Link
+            to={ROUTES.myQuiz}
+            type="button"
+            className="px-6 py-3.5 text-base font-medium text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
+          >
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6 mr-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z"
+              />
+            </svg>
+            View Result
+          </Link>
+        </div> */}
+        <div className="w-full flex justify-between mt-10">
+          {question && (
+            <button
+              onClick={() => quitGame()}
+              type="button"
+              disabled={!(isSubmitted && valid && valid?.winAmount > 1000)}
+              className="px-6 py-3.5 text-base font-medium text-white inline-flex items-center bg-red-700 hover:bg-red-800 disabled:cursor-not-allowed disabled:bg-red-800/50 rounded-lg"
+            >
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6 mr-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z"
+                />
+              </svg>
+              Quit the Game
+            </button>
+          )}
           {question && !isSubmitted && (
             <button
               type="button"
