@@ -1,7 +1,7 @@
 // Can vary depending on your BE response
 export interface IApiSuccess<T> {
   data: T;
-  message?: number;
+  message?: string;
 }
 export interface IApiError {
   message: string;

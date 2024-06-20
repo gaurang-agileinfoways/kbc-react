@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ROUTES } from "../../../utils/constants/routes";
 import ProfileComponent from "./profile";
 import { authStore } from "../../../service/store/auth";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
   const { userData } = authStore((state) => state);
 
   return (
@@ -38,17 +37,17 @@ const Header = () => {
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+          <Link
+            to={ROUTES.myQuiz}
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            My quiz
+          </Link>
           <a
             href="asdfdsf"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
-            Features
-          </a>
-          <a
-            href="asdfdsf"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Marketplace
+            Leaderboard
           </a>
           <a
             href="asdfdsf"
@@ -62,15 +61,18 @@ const Header = () => {
             <ProfileComponent />
           ) : (
             <div className="flex max-lg:ml-auto space-x-3">
-              <button
-                onClick={() => navigate(ROUTES.signIn)}
+              <Link
+                to={ROUTES.signIn}
                 className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-indigo-600 bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-indigo-600"
               >
                 Login
-              </button>
-              <button className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-indigo-600 bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-indigo-600">
+              </Link>
+              <Link
+                to={ROUTES.signup}
+                className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-indigo-600 bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-indigo-600"
+              >
                 Sign up
-              </button>
+              </Link>
 
               <button id="toggleOpen" className="lg:hidden">
                 <svg

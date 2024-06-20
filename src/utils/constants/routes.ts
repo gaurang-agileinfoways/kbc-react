@@ -2,6 +2,7 @@ export const ROUTES = {
   default: `/`,
   pageNotFound: `/404`,
   signIn: `/login`,
+  signup: `/signup`,
   changePassword: `/change-password`,
   forgotPassword: `/forgot-password`,
   ResetPassword: `/reset-password`,
@@ -13,5 +14,6 @@ export const ROUTES = {
   userManagement: `/users`,
   userView: `/users/view-user`,
 
-  test: "/test",
+  quiz: "/quiz",
+  myQuiz: "/my-quiz",
 };

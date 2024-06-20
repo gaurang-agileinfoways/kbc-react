@@ -6,7 +6,7 @@ import { LoginVelidation } from "../../../utils/constants/form-validation";
 import { useState } from "react";
 import { authAPI } from "../../../service/api/auth";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../utils/constants/routes";
 
 export const Login = () => {
@@ -28,7 +28,7 @@ export const Login = () => {
       .signIn(data)
       .then((data) => {
         toast.success(data.message as unknown as string);
-        navigate(ROUTES.default)
+        navigate(ROUTES.default);
       })
       .catch((err) => toast.error(err.message))
       .finally(() => setLoading(false));
@@ -252,12 +252,12 @@ export const Login = () => {
 
           <div className="mt-4 flex justify-between">
             <p className="text-center text-sm text-gray-500">Not a member?</p>
-            <a
-              href="adsfdsf"
+            <Link
+              to={ROUTES.signup}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
-              Start a 14 day free trial
-            </a>
+              Register now
+            </Link>
           </div>
         </div>
       </div>

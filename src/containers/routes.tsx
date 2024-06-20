@@ -3,8 +3,10 @@ import { Login } from "../components/auth/loginForm";
 import { Deshboard } from "../page/deshboard";
 import { ROUTES } from "../utils/constants/routes";
 import { Error404 } from "../page/error/error404";
-import { TestComponent } from "../page/test";
 import { AuthGuard } from "../components/auth/guards/auth.guard";
+import { TestComponent } from "../page/quiz";
+import { MyQuiz } from "../page/my-quiz";
+import { Signup } from "../components/auth/signupForm";
 
 const router = createBrowserRouter([
   {
@@ -16,11 +18,19 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: ROUTES.signup,
+    element: <Signup />,
+  },
+  {
     element: <AuthGuard />,
     children: [
       {
-        path: ROUTES.test,
+        path: ROUTES.quiz,
         element: <TestComponent />,
+      },
+      {
+        path: ROUTES.myQuiz,
+        element: <MyQuiz />,
       },
     ],
   },

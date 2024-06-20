@@ -12,6 +12,7 @@ export const LocalStorageKeys = {
 export const ApiEndPoints = {
   auth: {
     signIn: `auth/login`,
+    register: `auth/signup`,
     forgotPassword: `auth/forgot-password`,
     resetPassword: `auth/reset-password`,
     changePassword: `auth/change-password`,
@@ -23,5 +24,14 @@ export const ApiEndPoints = {
   },
   quiz: {
     startQuiz: `start-quiz`,
+    rankedPlayer: `get-ranked-user`,
+    myQuiz: `my-quiz`,
   },
 };
+
+export interface IPaginationList {
+  page: number;
+  limit: number;
+  search: string;
+  skip: number;
+}

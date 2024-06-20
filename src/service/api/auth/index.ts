@@ -9,6 +9,7 @@ import apiInstance from "../..";
 import { ApiEndPoints } from "../../../utils/constants";
 import { IApiSuccess } from "../../../utils/Types";
 import { authStore } from "../../store/auth";
+import { ISignupApi } from "../../store/auth/types";
 
 const { actions } = authStore.getState();
 
@@ -17,6 +18,18 @@ export const authAPI = {
   async signIn(data: ISignInReq): Promise<IApiSuccess<ISignInRes>> {
     return apiInstance
       .post(ApiEndPoints.auth.signIn, data)
+      .then((response) => {
+        actions.authSuccess(response);
+        return response;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  },
+
+  async register(data: ISignupApi): Promise<IApiSuccess<object>> {
+    return apiInstance
+      .post(ApiEndPoints.auth.register, data)
       .then((response) => {
         actions.authSuccess(response);
         return response;

@@ -30,7 +30,6 @@ export const authStore = create<IAuthStore & IAuthAction>((set) => ({
     loaderChange: (status) => set((state) => ({ ...state, isLoading: status })),
     authSuccess: (payload) =>
       set((state) => {
-        console.log("state: ", payload);
         apiInstance.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${payload.data.accessToken}`;

@@ -19,3 +19,24 @@ export const setupAxios = () => {
   }
   setAxiosInterceptor();
 };
+
+export function getCurrentClass(
+  isSubmitted: boolean,
+  currentValue: string,
+  selectedAnswer: string,
+  actualAnswer?: string
+) {
+  if (isSubmitted === true) {
+    if (currentValue === actualAnswer)
+      return "bg-green-400 hover:bg-none text-black";
+    if (currentValue === selectedAnswer)
+      return "bg-red-400 hover:bg-none text-black";
+    if (currentValue === selectedAnswer)
+      return "bg-indigo-400 hover:bg-none text-black";
+    return "hover:bg-none text-black";
+  } else {
+    return currentValue === selectedAnswer
+      ? "bg-indigo-400 hover:bg-none text-black"
+      : "hover:bg-indigo-100 text-gray-700";
+  }
+}

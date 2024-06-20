@@ -21,7 +21,6 @@ export function setAxiosInterceptor() {
   // It's used to intercept all the axios api response
   apiInstance.interceptors.response.use(
     (response: AxiosResponse) => {
-      console.log('response: ', response);
       return response.data;
     },
     (err) => {
@@ -36,9 +35,9 @@ export function setAxiosInterceptor() {
         const apiError = {
           response: {
             data: {
-              message: 'Something went wrong, Please try again later!!!'
-            }
-          }
+              message: "Something went wrong, Please try again later!!!",
+            },
+          },
         };
         return Promise.reject(apiError);
       }

@@ -21,6 +21,23 @@ export interface ISignInRes {
   accessToken: string;
 }
 
+export interface ISignupApi {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+}
+
+export interface ISignupForm {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  conformPassword: string;
+  phoneNumber: string;
+}
+
 export interface IForgotPwdReq {
   email: string;
   userType: string;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import DefaultLayout from "../../components/common/layout/DefaultLayout";
 import { ROUTES } from "../../utils/constants/routes";
+import { TodayTopPlayer } from "./todayTopPlayer";
 
 export const Deshboard = () => {
   return (
@@ -33,7 +34,7 @@ export const Deshboard = () => {
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <Link
-              to={ROUTES.test}
+              to={ROUTES.quiz}
               className="rounded-full text-center transition px-5 py-2.5 bg-indigo-700 text-white hover:bg-indigo-500 flex gap-1 items-center justify-center"
             >
               <svg
@@ -75,6 +76,7 @@ export const Deshboard = () => {
           </div>
         </div>
       </div>
+      <TodayTopPlayer />
     </DefaultLayout>
   );
 };
