@@ -34,7 +34,7 @@ export interface ISignupForm {
   lastName: string;
   email: string;
   password: string;
-  conformPassword: string;
+  conformPassword?: string;
   phoneNumber: string;
 }
 
