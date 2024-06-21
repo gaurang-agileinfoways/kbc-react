@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { capitalizeFirstLetter } from "../../../utils/functions";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../../utils/constants/routes";
+import { authAPI } from "../../../service/api/auth";
 
 export default function ProfileComponent() {
   const [profileDropdownload, setProfileDropdownload] = useState(false);
@@ -43,28 +46,20 @@ export default function ProfileComponent() {
             </a>
           </li>
           <li>
-            <a
-              href="adsfadsf"
+            <Link
+              to={ROUTES.myQuiz}
               className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
             >
-              My tests
-            </a>
+              My Quiz
+            </Link>
           </li>
-          {/* <li>
-            <a
-              href="adsfadsf"
-              className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
-            >
-              Earnings
-            </a>
-          </li> */}
           <li>
-            <a
-              href="adsfadsf"
-              className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+            <button
+              onClick={() => authAPI.logout()}
+              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
               Sign out
-            </a>
+            </button>
           </li>
         </ul>
       </div>

@@ -10,6 +10,7 @@ export const ROUTES = {
   myProfile: `/my-profile`,
   editMyProfile: `/edit-profile`,
   dashboard: `/dashboard`,
+  leaderboard: `/leaderboard`,
 
   userManagement: `/users`,
   userView: `/users/view-user`,

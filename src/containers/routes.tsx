@@ -7,6 +7,7 @@ import { AuthGuard } from "../components/auth/guards/auth.guard";
 import { TestComponent } from "../page/quiz";
 import { MyQuiz } from "../page/my-quiz";
 import { Signup } from "../components/auth/signupForm";
+import { LeaderBoard } from "../page/leaderboard";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.signup,
     element: <Signup />,
+  },
+  {
+    path: ROUTES.leaderboard,
+    element: <LeaderBoard />,
   },
   {
     element: <AuthGuard />,

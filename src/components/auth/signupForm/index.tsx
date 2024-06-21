@@ -23,7 +23,6 @@ export const Signup = () => {
 
   const navigate = useNavigate();
   function handleFormData(data: ISignupForm) {
-    console.log("data: ", data);
     data?.conformPassword && delete data?.conformPassword;
     setLoading(true);
     authAPI

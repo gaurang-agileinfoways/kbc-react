@@ -1,93 +1,99 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
+import { quizAPI } from "../../service/api/quiz";
+import { ILeaderBoardListData } from "../../service/api/quiz/types";
+import { Pagination } from "../my-quiz/pagination";
+import DefaultLayout from "../../components/common/layout/DefaultLayout";
 
 export const LeaderBoard = () => {
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    search: "",
+    skip: 0,
+  });
+  const [quiz, setQuiz] = useState<ILeaderBoardListData[] | null>(null);
+  const [totalRecord, setTotalRecord] = useState<number>(0);
+
+  useEffect(() => {
+    quizAPI
+      .leaderboard(pagination)
+      .then((data) => {
+        setTotalRecord(data.data.total_records);
+        setQuiz(data.data.data);
+      })
+      .catch(console.error);
+  }, [pagination]);
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-        <a
-          href="adsfdasf"
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Previous
-        </a>
-        <a
-          href="adsfdasf"
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Next
-        </a>
+    <DefaultLayout>
+      <div className="relative overflow-x-auto sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+          <caption className="p-5 text-2xl font-semibold text-left rtl:text-right text-gray-900 bg-white">
+            Leaderboard
+          </caption>
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-5 text-sm">
+                Rank
+              </th>
+              <th scope="col" className="px-6 py-5 text-sm">
+                Name
+              </th>
+              <th scope="col" className="px-6 py-5 text-sm">
+                Attempted question
+              </th>
+              <th scope="col" className="px-6 py-5 text-sm">
+                Win Amount
+              </th>
+              <th scope="col" className="px-6 py-5 text-sm">
+                Duration
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {quiz ? (
+              quiz.map((plyr, index) => (
+                <tr className="bg-white border-b" key={plyr.name + index}>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                  >
+                    {index + 1}
+                  </th>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap capitalize"
+                  >
+                    {plyr.name}
+                  </th>
+                  <td className="px-6 py-4">{plyr.currentLevel}</td>
+                  <td className="px-6 py-4">{plyr.winAmount}</td>
+                  <td className="px-6 py-4">
+                    {`${new Date(plyr.timeGap).toISOString().slice(14, 19)}`}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  <p className="text-sm mt-5">Loading...</p>
+                </td>
+              </tr>
+            )}
+            <tr>
+              <td colSpan={5} className="text-center">
+                {quiz && totalRecord !== 0 && (
+                  <Pagination
+                    limit={pagination.limit}
+                    totalRecords={totalRecord}
+                    pagination={pagination}
+                    paginationFunc={setPagination}
+                  />
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">10</span> of{" "}
-            <span className="font-medium">97</span> results
-          </p>
-        </div>
-        <div>
-          <nav
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-            aria-label="Pagination"
-          >
-            <a
-              href="adsfdasf"
-              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              <span className="sr-only">Previous</span>
-              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-            <a
-              href="adsfdasf"
-              aria-current="page"
-              className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              1
-            </a>
-            <a
-              href="adsfdasf"
-              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              2
-            </a>
-            <a
-              href="adsfdasf"
-              className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-            >
-              3
-            </a>
-            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-              ...
-            </span>
-            <a
-              href="adsfdasf"
-              className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-            >
-              8
-            </a>
-            <a
-              href="adsfdasf"
-              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              9
-            </a>
-            <a
-              href="adsfdasf"
-              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              10
-            </a>
-            <a
-              href="adsfdasf"
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              <span className="sr-only">Next</span>
-              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-          </nav>
-        </div>
-      </div>
-    </div>
+    </DefaultLayout>
   );
 };

@@ -26,6 +26,7 @@ export const ApiEndPoints = {
     startQuiz: `start-quiz`,
     rankedPlayer: `get-ranked-user`,
     myQuiz: `my-quiz`,
+    leaderboard: `leaderboard`,
   },
 };
 

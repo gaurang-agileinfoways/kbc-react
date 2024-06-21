@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import Header from "../Header";
+import { Footer } from "../footer";
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
@@ -22,6 +23,10 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
               {children}
             </div>
           </main>
+          {/* Footer area start */}
+          <Footer />
+          {/* Footer area end */}
+
           {/* <!-- ===== Main Content End ===== --> */}
         </div>
         {/* <!-- ===== Content Area End ===== --> */}

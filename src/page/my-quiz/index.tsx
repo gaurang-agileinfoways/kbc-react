@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import DefaultLayout from "../../components/common/layout/DefaultLayout";
 import { quizAPI } from "../../service/api/quiz";
-import { IQuizLisData } from "../../service/api/quiz/types";
+import { IQuizListData } from "../../service/api/quiz/types";
 import { IPaginationList } from "../../utils/constants";
 import { Pagination } from "./pagination";
 
 let dateFlag: string = "";
 export const MyQuiz = () => {
   function setDateFlag(d: string) {
-    console.log("d: ", d);
     dateFlag = d.toString().substring(0, 10);
     return "";
   }
@@ -19,14 +18,12 @@ export const MyQuiz = () => {
     search: "",
     skip: 0,
   });
-  const [quiz, setQuiz] = useState<Array<IQuizLisData> | null>(null);
+  const [quiz, setQuiz] = useState<Array<IQuizListData> | null>(null);
   const [totalRecord, setTotalRecord] = useState<number>(0);
   useEffect(() => {
     quizAPI
       .getMyQuiz(pagination)
       .then((data) => {
-        console.log("pagination: ", pagination);
-        console.log("data: ", data);
         setTotalRecord(data.data.total_records);
         const len: number = data.data.quiz.length - 1;
         dateFlag = data.data.quiz[len].createdAt.toString().substring(0, 10);
@@ -87,7 +84,9 @@ export const MyQuiz = () => {
                       {data.winAmount}
                     </th>
                     <td className="px-6 py-4">{data.currentLevel}</td>
-                    <td className="px-6 py-4">{data.status}</td>
+                    <td className="px-6 py-4 capitalize">
+                      {data.status.replace("_", " ")}
+                    </td>
                   </tr>
                 </>
               ))

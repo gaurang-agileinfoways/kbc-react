@@ -1,9 +1,9 @@
 export interface IQuizListResponse {
-  quiz: Array<Data>;
+  quiz: Array<IQuizListData>;
   total_records: number;
 }
 
-export interface IQuizLisData {
+export interface IQuizListData {
   _id: string;
   userId: number;
   status: string;
@@ -17,4 +17,17 @@ interface IQuestion {
   questionId: string;
   questionStatus: string;
   _id: string;
+}
+
+export interface ILeaderBoardListResponse {
+  data: Array<ILeaderBoardListData>;
+  total_records: number;
+}
+
+export interface ILeaderBoardListData {
+  name: string;
+  winAmount: number;
+  currentLevel: number;
+  timeGap: number;
+  status: string;
 }

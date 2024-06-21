@@ -77,4 +77,8 @@ export const authAPI = {
         throw error?.response?.data;
       });
   },
+
+  async logout() {
+    actions.authFail();
+  },
 };

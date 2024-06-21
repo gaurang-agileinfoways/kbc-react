@@ -56,7 +56,6 @@ export const TestComponent = () => {
     );
 
     clientIo.current.on("answer", (data: object) => {
-      console.log("data: ", data);
       setTime(0);
       setValid(JSON.parse(data as unknown as never));
       setIsSubmitted(true);
@@ -81,7 +80,6 @@ export const TestComponent = () => {
   }
 
   function quitGame() {
-    console.log("quit-game: ");
     clientIo.current.emit("quit-quiz", {});
   }
 
@@ -113,8 +111,6 @@ export const TestComponent = () => {
         toast.error(err.message);
       });
   }
-
-  console.log("adfdasf", answer);
 
   return (
     <div className="w-full flex justify-center">
@@ -186,29 +182,6 @@ export const TestComponent = () => {
             </button>
           </div>
         )}
-
-        {/* <div className="flex justify-start mt-10">
-          <Link
-            to={ROUTES.myQuiz}
-            type="button"
-            className="px-6 py-3.5 text-base font-medium text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
-          >
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6 mr-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z"
-              />
-            </svg>
-            View Result
-          </Link>
-        </div> */}
         <div className="w-full flex justify-between mt-10">
           {question && (
             <button
@@ -236,7 +209,7 @@ export const TestComponent = () => {
           {question && !isSubmitted && (
             <button
               type="button"
-              disabled={answer.length <= 0}
+              disabled={answer.length < 0}
               onClick={submitQuestion}
               className="px-6 py-3.5 text-base font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center disabled:cursor-not-allowed"
             >

@@ -31,6 +31,9 @@ export const TodayTopPlayer = () => {
             <th scope="col" className="px-6 py-5 text-sm">
               Win Amount
             </th>
+            <th scope="col" className="px-6 py-5 text-sm">
+              Duration
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +54,9 @@ export const TodayTopPlayer = () => {
                 </th>
                 <td className="px-6 py-4">{plyr.currentLevel}</td>
                 <td className="px-6 py-4">{plyr.winAmount}</td>
+                <td className="px-6 py-4">
+                  {`${new Date(plyr.timeGap).toISOString().slice(14, 19)}`}
+                </td>
               </tr>
             ))
           ) : (
