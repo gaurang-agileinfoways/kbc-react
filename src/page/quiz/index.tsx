@@ -7,6 +7,7 @@ import { getCurrentClass } from "../../utils/functions";
 import { QuizWin } from "./models/quizWin";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/constants/routes";
+import { Lifeline } from "./lifeline";
 
 export const TestComponent = () => {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,10 @@ export const TestComponent = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const clientIo = useRef<any>();
   const [answer, setAnswer] = useState("");
+  const [lifeline, setLifeline] = useState<{
+    lifeline: string;
+    answer: string[];
+  }>({ lifeline: "", answer: [] });
   const [error, setError] = useState("");
   const [time, setTime] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -32,13 +37,13 @@ export const TestComponent = () => {
 
   useEffect(() => {
     clientIo.current = socketInstance();
-
     clientIo.current.on("connnection", () => {
       console.log("connected to server");
     });
+  }, []);
 
+  useEffect(() => {
     clientIo.current.on("win", () => {
-      console.log("connected to server");
       setWin(true);
     });
 
@@ -59,6 +64,8 @@ export const TestComponent = () => {
       setTime(0);
       setValid(JSON.parse(data as unknown as never));
       setIsSubmitted(true);
+      setAnswer("");
+      if (lifeline.lifeline) setLifeline({ lifeline: "", answer: [] });
       if (!valid?.isCorrect) setOpen(true);
     });
 
@@ -68,7 +75,13 @@ export const TestComponent = () => {
       setIsSubmitted(true);
       setOpen(true);
     });
-  }, [valid?.isCorrect]);
+  }, [lifeline.lifeline, valid?.isCorrect]);
+
+  useEffect(() => {
+    clientIo.current.on("lifeline", (data: string) => {
+      setLifeline(JSON.parse(data));
+    });
+  }, [lifeline]);
 
   function getQuestion() {
     clientIo.current.emit("get-question");
@@ -164,6 +177,10 @@ export const TestComponent = () => {
                     <p className="font-normal">
                       {String.fromCharCode(key + 65)}. {data}
                     </p>
+                    {lifeline?.lifeline &&
+                      (lifeline.lifeline === "askToAi"
+                        ? lifeline.answer.includes(data) && "Ai recomended"
+                        : lifeline.answer.includes(data) && "50-50 recomended")}
                   </button>
                 ))}
               </div>
@@ -206,10 +223,17 @@ export const TestComponent = () => {
               Quit the Game
             </button>
           )}
+          {question && (
+            <Lifeline
+              clientIo={clientIo}
+              questionId={question._id}
+              disable={isSubmitted}
+            />
+          )}
           {question && !isSubmitted && (
             <button
               type="button"
-              disabled={answer.length < 0}
+              disabled={answer.length === 0}
               onClick={submitQuestion}
               className="px-6 py-3.5 text-base font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center disabled:cursor-not-allowed"
             >
@@ -248,7 +272,7 @@ export const TestComponent = () => {
                   d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z"
                 />
               </svg>
-              Agla question bataiye computer ji..
+              Agla question bataiye computer ji.
             </button>
           ) : (
             valid &&

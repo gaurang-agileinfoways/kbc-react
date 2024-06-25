@@ -25,9 +25,9 @@ export const MyQuiz = () => {
       .getMyQuiz(pagination)
       .then((data) => {
         setTotalRecord(data.data.total_records);
-        const len: number = data.data.quiz.length - 1;
-        dateFlag = data.data.quiz[len].createdAt.toString().substring(0, 10);
-        setQuiz(data.data.quiz as never);
+        const len: number = data.data.data.length - 1;
+        dateFlag = data.data.data[len].createdAt.toString().substring(0, 10);
+        setQuiz(data.data.data as never);
       })
       .catch(console.error);
   }, [pagination]);
@@ -91,7 +91,11 @@ export const MyQuiz = () => {
                 </>
               ))
             ) : (
-              <div className="m-5 text-center w-full">Loading...</div>
+              <tr className="bg-white">
+                <td colSpan={5} className="bg-gray-100">
+                  <p className="my-5 text-center w-full">Loading...</p>
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

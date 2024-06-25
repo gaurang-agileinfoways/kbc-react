@@ -1,5 +1,5 @@
 export interface IQuizListResponse {
-  quiz: Array<IQuizListData>;
+  data: Array<IQuizListData>;
   total_records: number;
 }
 
