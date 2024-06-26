@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { quizAPI } from "../../service/api/quiz";
-import { ILeaderBoardListData } from "../../service/api/quiz/types";
 import { Pagination } from "../my-quiz/pagination";
 import DefaultLayout from "../../components/common/layout/DefaultLayout";
 
@@ -11,18 +10,8 @@ export const LeaderBoard = () => {
     search: "",
     skip: 0,
   });
-  const [quiz, setQuiz] = useState<ILeaderBoardListData[] | null>(null);
-  const [totalRecord, setTotalRecord] = useState<number>(0);
 
-  useEffect(() => {
-    quizAPI
-      .leaderboard(pagination)
-      .then((data) => {
-        setTotalRecord(data.data.total_records);
-        setQuiz(data.data.data);
-      })
-      .catch(console.error);
-  }, [pagination]);
+  const { data, isLoading, isSuccess } = quizAPI.useGetLeaderboard(pagination);
   return (
     <DefaultLayout>
       <div className="relative overflow-x-auto sm:rounded-lg">
@@ -50,8 +39,15 @@ export const LeaderBoard = () => {
             </tr>
           </thead>
           <tbody>
-            {quiz ? (
-              quiz.map((plyr, index) => (
+            {isLoading && (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  <p className="text-sm mt-5">Loading...</p>
+                </td>
+              </tr>
+            )}
+            {isSuccess &&
+              data.data.map((plyr, index) => (
                 <tr className="bg-white border-b" key={plyr.name + index}>
                   <th
                     scope="row"
@@ -71,20 +67,13 @@ export const LeaderBoard = () => {
                     {`${new Date(plyr.timeGap).toISOString().slice(14, 19)}`}
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5} className="text-center">
-                  <p className="text-sm mt-5">Loading...</p>
-                </td>
-              </tr>
-            )}
+              ))}
             <tr>
               <td colSpan={5} className="text-center">
-                {quiz && totalRecord !== 0 && (
+                {isSuccess && (
                   <Pagination
                     limit={pagination.limit}
-                    totalRecords={totalRecord}
+                    totalRecords={data.total_records}
                     pagination={pagination}
                     paginationFunc={setPagination}
                   />

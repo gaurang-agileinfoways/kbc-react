@@ -1,15 +1,7 @@
-import { useEffect, useState } from "react";
 import { deshboardAPI } from "../../service/api/deshboard";
 
 export const TodayTopPlayer = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [players, setPlayers] = useState<any[] | null>(null);
-  useEffect(() => {
-    deshboardAPI
-      .getRankedPlayer()
-      .then((data) => setPlayers(data.data as never))
-      .catch(console.error);
-  }, []);
+  const { data, isSuccess, isLoading } = deshboardAPI.useGetRankedPlayer();
 
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
@@ -37,8 +29,15 @@ export const TodayTopPlayer = () => {
           </tr>
         </thead>
         <tbody>
-          {players ? (
-            players.map((plyr, index) => (
+          {isLoading && (
+            <tr>
+              <td colSpan={4} className="text-center">
+                <p className="text-sm mt-5">Loading...</p>
+              </td>
+            </tr>
+          )}
+          {isSuccess &&
+            data.map((plyr, index) => (
               <tr className="bg-white border-b" key={plyr.name + index}>
                 <th
                   scope="row"
@@ -58,14 +57,7 @@ export const TodayTopPlayer = () => {
                   {`${new Date(plyr.timeGap).toISOString().slice(14, 19)}`}
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4} className="text-center">
-                <p className="text-sm mt-5">Loading...</p>
-              </td>
-            </tr>
-          )}
+            ))}
         </tbody>
       </table>
     </div>

@@ -5,11 +5,11 @@ import {
   QueryKey,
   UseMutationOptions,
   UseMutationResult,
-  UseQueryOptions,
   UseQueryResult,
   useMutation,
-  queryOptions,
   useQuery,
+  DefinedInitialDataOptions,
+  QueryObserverOptions,
 } from "@tanstack/react-query";
 import { IApiError } from "../../utils/Types";
 
@@ -17,10 +17,7 @@ import { IApiError } from "../../utils/Types";
 interface QueryConfig<T> {
   queryKey?: QueryKey;
   queryFn: QueryFunction<T>;
-  queryOption?: Omit<
-    UseQueryOptions<T, IApiError, T, QueryKey>,
-    "queryKey" | "queryFn"
-  >;
+  queryOption?: QueryObserverOptions<T, IApiError, T, QueryKey>;
 }
 
 type QueryResult<T> = UseQueryResult<T, IApiError>;
@@ -28,16 +25,13 @@ type QueryResult<T> = UseQueryResult<T, IApiError>;
 const useFetch = <T>({
   queryKey = [],
   queryFn,
-  // queryOption,
+  queryOption,
 }: QueryConfig<T>): QueryResult<T> => {
-  return useQuery<T, IApiError, T, QueryKey>(
-    queryOptions({
-      queryKey,
-      queryFn,
-      // queryOption
-      // ...(queryOption as UseQueryOptions<T, IApiError, T, QueryKey>),
-    })
-  );
+  return useQuery<T, IApiError, T, QueryKey>({
+    queryFn,
+    queryKey,
+    ...queryOption,
+  } as DefinedInitialDataOptions<T, IApiError, T, QueryKey>);
 };
 /* custom hook useFetch logic end */
 
@@ -56,8 +50,8 @@ type MutationResult<T, P> = UseMutationResult<T, IApiError, P>;
 const useRequest = <T, P>({
   mutationKey = [],
   mutationFn,
-  // mutationOptions,
-}: MutationConfig<T, P>): MutationResult<T, P> => {
+}: // mutationOptions,
+MutationConfig<T, P>): MutationResult<T, P> => {
   return useMutation<T, IApiError, P>(
     { mutationKey, mutationFn }
     // mutationOptions as UseMutationOptions<T, IApiError, P>

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DefaultLayout from "../../components/common/layout/DefaultLayout";
 import { quizAPI } from "../../service/api/quiz";
-import { IQuizListData } from "../../service/api/quiz/types";
 import { IPaginationList } from "../../utils/constants";
 import { Pagination } from "./pagination";
 
@@ -18,19 +17,9 @@ export const MyQuiz = () => {
     search: "",
     skip: 0,
   });
-  const [quiz, setQuiz] = useState<Array<IQuizListData> | null>(null);
-  const [totalRecord, setTotalRecord] = useState<number>(0);
-  useEffect(() => {
-    quizAPI
-      .getMyQuiz(pagination)
-      .then((data) => {
-        setTotalRecord(data.data.total_records);
-        const len: number = data.data.data.length - 1;
-        dateFlag = data.data.data[len].createdAt.toString().substring(0, 10);
-        setQuiz(data.data.data as never);
-      })
-      .catch(console.error);
-  }, [pagination]);
+
+  const { data, isLoading, isSuccess } = quizAPI.useGetMyQuiz(pagination);
+
   return (
     <DefaultLayout>
       <div className="relative overflow-x-auto border-gray-200/50 border sm:rounded-lg">
@@ -58,8 +47,15 @@ export const MyQuiz = () => {
             </tr>
           </thead>
           <tbody>
-            {quiz ? (
-              quiz?.map((data, index: number) => (
+            {isLoading && (
+              <tr className="bg-white">
+                <td colSpan={5} className="bg-gray-100">
+                  <p className="my-5 text-center w-full">Loading...</p>
+                </td>
+              </tr>
+            )}
+            {isSuccess &&
+              data.data?.map((data, index: number) => (
                 <>
                   {dateFlag !== data.createdAt.toString().substring(0, 10) && (
                     <tr
@@ -89,21 +85,14 @@ export const MyQuiz = () => {
                     </td>
                   </tr>
                 </>
-              ))
-            ) : (
-              <tr className="bg-white">
-                <td colSpan={5} className="bg-gray-100">
-                  <p className="my-5 text-center w-full">Loading...</p>
-                </td>
-              </tr>
-            )}
+              ))}
           </tbody>
         </table>
 
-        {quiz && totalRecord !== 0 && (
+        {isSuccess && (
           <Pagination
             limit={pagination.limit}
-            totalRecords={totalRecord}
+            totalRecords={data.total_records}
             pagination={pagination}
             paginationFunc={setPagination}
           />
