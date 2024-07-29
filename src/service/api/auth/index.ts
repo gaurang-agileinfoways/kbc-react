@@ -10,21 +10,26 @@ import { ApiEndPoints } from "../../../utils/constants";
 import { IApiSuccess } from "../../../utils/Types";
 import { authStore } from "../../store/auth";
 import { ISignupApi } from "../../store/auth/types";
+import { useRequest } from "../../hooks";
 
 const { actions } = authStore.getState();
 
 export const authAPI = {
   // SignIn
-  async signIn(data: ISignInReq): Promise<IApiSuccess<ISignInRes>> {
-    return apiInstance
-      .post(ApiEndPoints.auth.signIn, data)
-      .then((response) => {
-        actions.authSuccess(response);
-        return response;
-      })
-      .catch((error) => {
-        throw error?.response?.data;
-      });
+  useSignIn() {
+    return useRequest({
+      mutationKey: ["auth", "signin"],
+      mutationFn: async (data: ISignInReq): Promise<IApiSuccess<ISignInRes>> =>
+        apiInstance
+          .post(ApiEndPoints.auth.signIn, data)
+          .then((response) => {
+            actions.authSuccess(response);
+            return response;
+          })
+          .catch((err) => {
+            throw err.response.data;
+          }),
+    });
   },
 
   async register(data: ISignupApi): Promise<IApiSuccess<object>> {
@@ -32,7 +37,7 @@ export const authAPI = {
       .post(ApiEndPoints.auth.register, data)
       .then((response) => {
         actions.authSuccess(response);
-        return response;
+        return response.data;
       })
       .catch((error) => {
         throw error?.response?.data;
@@ -45,7 +50,7 @@ export const authAPI = {
     return apiInstance
       .post(ApiEndPoints.auth.forgotPassword, data)
       .then((response) => {
-        return response;
+        return response.data;
       })
       .catch((error) => {
         throw error?.response?.data;
@@ -58,7 +63,7 @@ export const authAPI = {
     return apiInstance
       .post(ApiEndPoints.auth.resetPassword, data)
       .then((response) => {
-        return response;
+        return response.data;
       })
       .catch((error) => {
         throw error?.response?.data;
@@ -71,7 +76,7 @@ export const authAPI = {
     return apiInstance
       .post(ApiEndPoints.auth.changePassword, data)
       .then((response) => {
-        return response;
+        return response.data;
       })
       .catch((error) => {
         throw error?.response?.data;

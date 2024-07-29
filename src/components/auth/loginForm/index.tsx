@@ -3,7 +3,7 @@ import DefaultLayout from "../../common/layout/DefaultLayout";
 import { ISignInReq } from "../../../service/store/auth/types";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { LoginVelidation } from "../../../utils/constants/form-validation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authAPI } from "../../../service/api/auth";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,7 +11,6 @@ import { ROUTES } from "../../../utils/constants/routes";
 
 export const Login = () => {
   const [handleShowPassword, setHandleShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -22,17 +21,18 @@ export const Login = () => {
   });
 
   const navigate = useNavigate();
+  const mutation = authAPI.useSignIn();
   function handleFormData(data: ISignInReq) {
-    setLoading(true);
-    authAPI
-      .signIn(data)
-      .then((data) => {
-        toast.success(data.message as unknown as string);
-        navigate(ROUTES.default);
-      })
-      .catch((err) => toast.error(err.message))
-      .finally(() => setLoading(false));
+    mutation.mutate(data);
   }
+
+  useEffect(() => {
+    if (mutation.isSuccess && mutation?.data?.message) {
+      toast.success(mutation?.data?.message);
+      navigate(ROUTES.default);
+    }
+    if (mutation.isError) toast.error(mutation.error.message);
+  }, [mutation.isSuccess, mutation.isError]);
   return (
     <DefaultLayout>
       <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -194,12 +194,12 @@ export const Login = () => {
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={mutation.isPending}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6
                 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
-                focus-visible:outline-indigo-600 disabled:bg-gray-600/60 disabled:text-black disabled:cursor-progress"
+                focus-visible:outline-indigo-600 disabled:bg-indigo-500/50 disabled:cursor-progress"
               >
-                {loading ? (
+                {mutation.isPending ? (
                   <svg
                     version="1.1"
                     id="L9"
@@ -244,7 +244,7 @@ export const Login = () => {
                     </rect>
                   </svg>
                 ) : (
-                  "Sign in"
+                  <p>Sign in</p>
                 )}
               </button>
             </div>
