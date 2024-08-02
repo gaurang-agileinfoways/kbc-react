@@ -1,6 +1,8 @@
 // Env variables
 export const API_BASE = import.meta.env.VITE_REACT_APP_API_BASE;
+console.log("API_BASE: ", API_BASE);
 export const APP_NAME = import.meta.env.VITE_REACT_APP_NAME;
+console.log("APP_NAME: ", APP_NAME);
 
 // Local Storage Variables
 export const LocalStorageKeys = {

@@ -2,13 +2,6 @@ import { useRequest } from "..";
 import { authAPI } from "../../api/auth";
 import { authKeys } from "../queryKeys";
 
-export const useSignIn = () => {
-  return useRequest({
-    mutationKey: authKeys.authMutate,
-    mutationFn: authAPI.signIn,
-  });
-};
-
 export const useForgotPassword = () => {
   return useRequest({
     mutationFn: authAPI.forgotPassword,

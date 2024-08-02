@@ -10,6 +10,7 @@ import {
   useQuery,
   DefinedInitialDataOptions,
   QueryObserverOptions,
+  QueryClient,
 } from "@tanstack/react-query";
 import { IApiError } from "../../utils/Types";
 
@@ -50,11 +51,11 @@ type MutationResult<T, P> = UseMutationResult<T, IApiError, P>;
 const useRequest = <T, P>({
   mutationKey = [],
   mutationFn,
-}: // mutationOptions,
-MutationConfig<T, P>): MutationResult<T, P> => {
+  mutationOptions,
+}: MutationConfig<T, P>): MutationResult<T, P> => {
   return useMutation<T, IApiError, P>(
-    { mutationKey, mutationFn }
-    // mutationOptions as UseMutationOptions<T, IApiError, P>
+    { mutationKey, mutationFn },
+    mutationOptions as QueryClient | undefined
   );
 };
 /* custom hook useRequest logic end */

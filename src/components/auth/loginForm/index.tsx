@@ -23,6 +23,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const mutation = authAPI.useSignIn();
   function handleFormData(data: ISignInReq) {
+    console.log("data: ", data);
     mutation.mutate(data);
   }
 

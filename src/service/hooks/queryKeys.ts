@@ -1,109 +1,104 @@
-import { IDashboardReq } from 'services/api/dashboard/types';
-import { IIncidentReq } from 'services/api/incident/type';
-import { IResourceReq } from 'services/api/resources/types';
-import { ITrainingReq } from 'services/api/training/types';
-import { IUserListReq } from 'services/api/user/types';
-import { IVolunteerReq } from 'services/api/volunteer/types';
-
 export const authKeys = {
-  authMutate: ['auth-mutate-key'],
+  authMutate: ["auth-mutate-key"],
   authForgotPsw: [`auth-forgot-password`],
   authResetPsw: [`auth-reset-password`],
-  authChangePsw: [`auth-change-password`]
+  authChangePsw: [`auth-change-password`],
 };
 
 export const userKeys = {
-  userList: (data: IUserListReq) => [
+  userList: (data: any) => [
     `user-list-${data.offset ?? 0}`,
     `${data.limit}`,
-    `${data.search ?? ''}`,
-    `${data.sortBy ?? ''}`,
-    `${data.sortOrder ?? ''}`
+    `${data.search ?? ""}`,
+    `${data.sortBy ?? ""}`,
+    `${data.sortOrder ?? ""}`,
   ],
   userDetail: (id: string) => [`user-detail-${id}`],
-  userStatus: [`user-status-active-inactive`]
+  userStatus: [`user-status-active-inactive`],
 };
 
 export const incidentKeys = {
-  incidentList: (data: IIncidentReq) => [
-    `incident-list-${data.offset}-${data.userId ?? ''}-${data.volunteerId ?? ''}`,
-    `${data.limit ?? ''}`,
-    `${data.search ?? ''}`,
-    `${data.sortBy ?? ''}`,
-    `${data.sortOrder ?? ''}`,
+  incidentList: (data: any) => [
+    `incident-list-${data.offset}-${data.userId ?? ""}-${
+      data.volunteerId ?? ""
+    }`,
+    `${data.limit ?? ""}`,
+    `${data.search ?? ""}`,
+    `${data.sortBy ?? ""}`,
+    `${data.sortOrder ?? ""}`,
     `${data.status ?? []}`,
-    `${data.type ?? []}`
+    `${data.type ?? []}`,
   ],
   incidentDelete: [`delete-incident`],
   incidentDetail: (id: string) => [`incident-detail-${id}`],
-  incidentCommnetList: (id: string) => [`incident-comment-${id}`]
+  incidentCommnetList: (id: string) => [`incident-comment-${id}`],
 };
 
 export const volunteerKeys = {
-  volunteerList: (data: IVolunteerReq) => [
+  volunteerList: (data: any) => [
     `volunteer-list`,
     `${data?.limit}`,
     `${data?.offset}`,
-    `${data?.search ?? ''}`,
-    `${data?.sortBy ?? ''}`,
-    `${data?.sortOrder ?? ''}`
+    `${data?.search ?? ""}`,
+    `${data?.sortBy ?? ""}`,
+    `${data?.sortOrder ?? ""}`,
   ],
   volunteerDetail: (id: string) => [`volunteer-detail-${id}`],
   volunteerStatus: [`volunteer-status`],
   volunteerAdd: [`add-volunteer`],
-  volunteerEdit: [`edit-volunteer`]
+  volunteerEdit: [`edit-volunteer`],
 };
 
 export const trainingKeys = {
-  trainingList: (data: ITrainingReq) => [
+  trainingList: (data: any) => [
     `training-list`,
     `${data?.limit}`,
     `${data?.offset}`,
-    `${data?.search ?? ''}`,
-    `${data?.sortBy ?? ''}`,
-    `${data?.sortOrder ?? ''}`
+    `${data?.search ?? ""}`,
+    `${data?.sortBy ?? ""}`,
+    `${data?.sortOrder ?? ""}`,
   ],
   trainingDetail: (id: string) => [`training-detail-${id}`],
   trainingDelete: [`training-delete`],
   trainingAdd: [`add-training`],
-  trainingEdit: [`edit-training`]
+  trainingEdit: [`edit-training`],
 };
 
 export const dashboardKey = {
-  dashboardCount: (data: IDashboardReq) => [
+  dashboardCount: (data: any) => [
     `dashboard-count`,
     `${data?.endDate}`,
-    `${data?.startDate}`
-  ]
+    `${data?.startDate}`,
+  ],
 };
 
 export const cmsKey = {
   cmsList: [`cms-list`],
   cmsDetail: (id: string) => [`cms-detail-${id}`],
-  cmsEdit: [`cms-edit`]
+  cmsEdit: [`cms-edit`],
 };
 
 export const profileKey = {
   profileDetail: [`profile-detail`],
-  profileEdit: [`profile-edit`]
+  profileEdit: [`profile-edit`],
 };
 
 export const resourceKeys = {
-  resourceList: (data: IResourceReq) => [
+  resourceList: (data: any) => [
     `resource-list`,
     `${data?.limit}`,
     `${data?.offset}`,
-    `${data?.search ?? ''}`,
-    `${data?.sortBy ?? ''}`,
-    `${data?.sortOrder ?? ''}`
+    `${data?.search ?? ""}`,
+    `${data?.sortBy ?? ""}`,
+    `${data?.sortOrder ?? ""}`,
   ],
   resourceDetail: (id: string) => [`resource-detail-${id}`],
   resourceDelete: [`resource-delete`],
   resourceAddEdit: [`add-edit-resource`],
   resourceTypeList: [`resource-type-list`],
-  resourceImage: [`resource-image`]
+  resourceImage: [`resource-image`],
 };
 
 export const jsonFileKey = {
-  jsonFileType: (fileType: string) => [`json-file-${fileType}`]
+  jsonFileType: (fileType: string) => [`json-file-${fileType}`],
 };
